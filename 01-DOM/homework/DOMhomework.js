@@ -18,7 +18,7 @@
 
 function ToDo (description) {
   // Tu código acá:
-  
+  description;
 }
 
 
