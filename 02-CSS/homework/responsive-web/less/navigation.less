@@ -1,1 +1,38 @@
 // Código de Nav acá
+nav {
+    // Todas estas propiedades estan incluidas en el mixin
+    // display: flex;
+    // flex-direction: column;
+	// justify-content: center; 
+    // align-items: center;
+
+    .flex(column, center, center);
+    padding-top: 10px;
+     
+    background-color: @nav-bg;
+    border: @nav-border solid 2px;
+ 
+    ul{
+       // display: flex;
+        //flex-direction: row; // default value
+        //display: flex;
+        //flex-direction: row;
+
+        .flex(row, space-around, center);
+        width: 50%;
+        justify-content: space-around;
+        padding: 10px;
+       
+
+        @media @phone {
+            width: 90%;
+        }
+    
+    }
+
+    a{
+        text-decoration: none;
+        font-weight: bold;
+        color: @nav-font;
+    }
+}
