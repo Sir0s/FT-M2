@@ -1,12 +1,14 @@
 // Crear un array vacío llamado 'toDoItems'
 // Tu codigo acá:
-
+var toDoItems = [];
 
 // En la página 'index.html' hay un elemento span cuyo texto es 'Aplicación creada por:'.
 // Usando querySelector seleccionar dicho span por su id ('createdBy') y luego usando innerHTML
 // agregar tu nombre al final del texto actual. Ej: 'Aplicación creada por Franco'
 // Tu código acá:
-  
+  var nombre = "Matias"
+var spn = document.querySelector('#createdBy');
+spn.innerHTML = spn.innerHTML + " " + nombre
 
 
 // Crear una clase denominada 'ToDo' cuyo constructor debe recibir un único parámetro del tipo string
@@ -18,7 +20,8 @@
 
 function ToDo (description) {
   // Tu código acá:
-  description;
+  this.description = description;
+  this.complete = false;
 }
 
 
@@ -27,7 +30,8 @@ function ToDo (description) {
 // Debe setear el atributo 'complete' del ToDo en true
 
 // Tu código acá:
-
+ToDo.prototype.completeToDo = function() {
+  this.complete = true;}
 
 // Agregar dos parámetros a la función 'buildToDo':
 //    1) Un objeto de la clase ToDo
@@ -48,7 +52,26 @@ function ToDo (description) {
 
 
 function buildToDo(todo, index) {
-  // Tu código acá:
+  // 1)
+  var toDoShell = document.createElement('div')
+  // 2)
+  toDoShell.setAttribute('class', 'toDoShell');
+  // 3)
+  var toDoText = document.createElement('span');
+  // 4)
+  toDoText.innerHTML = todo.description 
+  // 5)
+  toDoText.setAttribute('id', index);
+  toDoText.addEventListener('click', completeToDo)
+  
+  // 6)
+  if(todo.complete) {
+    toDoText.setAttribute('class', 'completeText');
+  }
+  // 7)
+  toDoShell.appendChild(toDoText)
+  // 8)
+  return toDoShell;
 }
 
 // La función 'buildToDos' debe crear un array de objetos toDo y devolverlo
@@ -58,7 +81,12 @@ function buildToDo(todo, index) {
 
 function buildToDos(toDos) {
   // Tu código acá:
+    var newArray = toDos.map(function (todo, i) {
+    return buildToDo(todo, i)
+  });
+  return newArray
 }
+
 
 // La función 'displayToDos' se va a encargar de que se vean los toDo's en pantalla
 //  1) Seleccionr el elemento cuyo id es 'toDoContainer' y almacenarlo en una variable denominada 'toDoContainer'
@@ -71,6 +99,14 @@ function buildToDos(toDos) {
 
 function displayToDos() {
   // Tu código acá:
+    var toDoContainer = document.getElementById('toDoContainer');
+  
+	// 2) Setear el innerHTML de 'toDoContainer' como un string vacio ("")
+  toDoContainer.innerHTML = '';
+  // 3) Llamar a la función previemante creada 'buildToDos' pasándole como argumento el array toDoItems
+  var result = buildToDos(toDoItems);
+  // 4) Iterar sobre el resultado devuelto por la función 'buildToDos' e ir agregndo cada elemento a 'toDoContainer'
+  result.forEach((t)=>toDoContainer.appendChild(t))
 }
 
 // La función 'addToDo' agregará un nuevo ToDo al array 'toDoItems'
@@ -84,8 +120,22 @@ function displayToDos() {
 
 function addToDo() {
   // Tu código acá:
- 
-}
+  var value = document.getElementById('toDoInput').value;
+  
+    // 1)
+    var myTodo = new ToDo(value);
+  
+    // 2)
+    toDoItems.push(myTodo);
+  
+    // 3)
+    var inp = document.getElementById('toDoInput');
+    inp.value = '';
+  
+    // 4)
+    displayToDos();
+  }
+
 
 // Agregar un 'Event Listener' para que cada vez que el botón 'AGREGAR' sea clickeado
 // se ejecute la función 'addToDo'
@@ -94,7 +144,7 @@ function addToDo() {
 
 // Tu código acá:
 
-
+document.getElementById("addButton").addEventListener("click", addToDo);
 
 // La función completeToDo se va a ejecutar cuando queramos completar un todo
 // [NOTA: Algunas cuestiones a tener en cuenta
@@ -112,7 +162,9 @@ function completeToDo(event) {
   // DESCOMENTAR LA SIGUIENTE LINEA
   //const index = event.target.id;
   // Tu código acá:
-  
+  const index = event.target.id;
+  toDoItems[index].completeToDo();
+  displayToDos();
 }
 
 // Una vez que llegaste a este punto verificá que todos los tests pasen
@@ -132,7 +184,7 @@ function completeToDo(event) {
 
 
 // Acá debes insertar la llamada a 'displayToDos'
-
+displayToDos();
 
 // ---------------------------- NO CAMBIES NADA DE ACÁ PARA ABAJO ----------------------------- //
 if (typeof module !== 'undefined') {
